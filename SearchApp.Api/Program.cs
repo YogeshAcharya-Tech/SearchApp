@@ -8,6 +8,7 @@ using SearchApp.Api.DependencyInjection;
 using SearchApp.Api.MIddleware;
 using SearchApp.Core;
 using SearchApp.Core.Entities;
+using SearchApp.Infrastructure.Repositories;
 using System.Text;
 
 var logger = LogManager.Setup().LoadConfigurationFromFile("nlog.config").GetCurrentClassLogger();
@@ -89,6 +90,7 @@ builder.Services.AddAppDI();
 
 builder.Services.AddSingleton<ICustomLogger, CustomLogger>();
 builder.Services.AddSingleton<LogHelper>();
+builder.Services.AddScoped<ISearchHistoryRepository, SearchHistoryRepository>();
 
 var app = builder.Build();
 

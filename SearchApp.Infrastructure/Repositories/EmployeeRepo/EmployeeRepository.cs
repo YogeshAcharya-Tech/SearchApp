@@ -33,5 +33,24 @@ namespace SearchApp.Infrastructure.Repositories
             List<EmployeeSearchResponse> EmpList = data.Select(x=> new EmployeeSearchResponse { Id = x.Id.ToString(),Name = x.Name, Email = x.Email, Phone = x.Phone, Department = x.Department, Salary = x.Salary, CreatedDate = x.CreatedDate }).ToList();
             return EmpList;
         }
+        public async void SaveSearchHistory(SearchEmployeeRequest SearchEmployeeRequest, int ResultSetCount)
+        {
+            var data = new SearchHistory
+            {
+                Department = SearchEmployeeRequest.Department,
+                Salary = SearchEmployeeRequest.Salary,
+                Name = SearchEmployeeRequest.Name,
+                FromDate = SearchEmployeeRequest.FromDate,
+                ToDate = SearchEmployeeRequest.ToDate,
+                RecordsPerRequest = SearchEmployeeRequest.RecordsPerRequest,
+                SortBy = SearchEmployeeRequest.SortBy,
+                SortOrder = SearchEmployeeRequest.SortOrder,
+                ResultCount = ResultSetCount,
+                SearchDate = DateTime.Now,
+                UserId = SearchEmployeeRequest.UserId
+            };
+            dbContext.SearchHistory.Add(data);
+            dbContext.SaveChanges();
+        }
     }
 }

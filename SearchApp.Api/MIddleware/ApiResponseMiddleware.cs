@@ -9,11 +9,10 @@ using System.Net;
 
 namespace SearchApp.Api.MIddleware
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ApiResponseMiddleware
     {
-        private readonly RequestDelegate _next;
-        private readonly ICustomLogger _customLogger;
+        private readonly RequestDelegate _next; //Used to execute and pass control in order of sequence
+        private readonly ICustomLogger _customLogger; // Using NLog
 
         public ApiResponseMiddleware(RequestDelegate next, ICustomLogger customLogger)
         {
@@ -24,7 +23,7 @@ namespace SearchApp.Api.MIddleware
         {
             var stopWatch = Stopwatch.StartNew();
 
-            var CorelationId = GenerateCorrelationId();
+            var CorelationId = GenerateCorrelationId(); // CorelationId mapping with each unique request and response
 
             // Use indexer or Append to avoid exception if "CorelationId" already exists
             httpContext.Request.Headers.Add("CorelationId", CorelationId);
@@ -44,6 +43,9 @@ namespace SearchApp.Api.MIddleware
 
             await HandleRequestAsync(httpContext, "", stopWatch);
         }
+
+        /// <summary> Handle Http Request
+        /// </summary>
         private async Task HandleRequestAsync(HttpContext context, string uid, Stopwatch stopWatch)
         {
             var originalBodyStream = context.Response.Body;
@@ -85,6 +87,9 @@ namespace SearchApp.Api.MIddleware
                 }
             }
         }
+
+        /// <summary> Handling Global Exception
+        /// </summary>
         private Task HandleExceptionAsync(HttpContext context, Exception exception, string uid, long apiTime)
         {
             ApiError apiError;
@@ -132,6 +137,9 @@ namespace SearchApp.Api.MIddleware
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(jsonString);
         }
+
+        /// <summary> Handling Not Success Request
+        /// </summary>
         private Task HandleNotSuccessRequestAsync(HttpContext context, int code, string uid, long apiTime)
         {
             ApiError apiError;
@@ -163,6 +171,9 @@ namespace SearchApp.Api.MIddleware
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(jsonString);
         }
+
+        /// <summary> Handling Not Success Request
+        /// </summary>
         private Task HandleNotSuccessRequestAsync(HttpContext context, object body, int code, string uid, long apiTime)
         {
             var bodyText = body.ToString();
@@ -206,10 +217,16 @@ namespace SearchApp.Api.MIddleware
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(jsonString);
         }
+
+        /// <summary> Unique Id To Map A Request And Reponse
+        /// </summary>
         private string GenerateCorrelationId()
         {
             return Guid.NewGuid().ToString();
         }
+
+        /// <summary> Handling Success Request
+        /// </summary>
         private Task HandleSuccessRequestAsync(HttpContext context, object body, int code)
         {
             string jsonString = string.Empty;
@@ -260,6 +277,9 @@ namespace SearchApp.Api.MIddleware
                 Converters = new List<JsonConverter> { new StringEnumConverter() }
             };
         }
+
+        /// <summary> Common method for custom error response
+        /// </summary>
         private ApiResponse GetErrorResponse(int code, ApiError apiError)
         {
             return new ApiResponse(code, apiError);

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using SearchApp.Application;
 using SearchApp.Application.Queries;
 using SearchApp.Core.Entities;
@@ -16,7 +15,6 @@ namespace SearchApp.Api.Controllers
     {
         /// <summary> Add new employees
         /// </summary>
-        [AllowAnonymous]
         [HttpPost("AddEmployee")]
         public async Task<IActionResult> AddEmployee(EmployeeEntity employee)
         {
@@ -47,6 +45,11 @@ namespace SearchApp.Api.Controllers
             {
                 return BadRequest(new ApiResponse(400, new ApiError(ResponseMessageEnum.ValidationError.GetDescription(), ModelStateExtension.AllErrors(ModelState))));
             }
+
+            // Get UserId from token claim
+            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            filter.UserId = GetUserId(token);
 
             var result = await sender.Send(new EmployeeSearchQuery(filter));
 

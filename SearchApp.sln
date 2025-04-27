@@ -15,6 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Search.AppTest", "Search.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchApp.Test", "SearchApp.Test\SearchApp.Test.csproj", "{0B41EB9F-ECC1-4873-8876-E7490BC95D11}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Documentation", "API Documentation", "{B4823B1D-ADBE-4388-B030-DD77653AA806}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\User\Downloads\API Documentation.docx = C:\Users\User\Downloads\API Documentation.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
