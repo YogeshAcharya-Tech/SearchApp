@@ -45,11 +45,8 @@ namespace SearchApp.Api.Controllers
             {
                 return BadRequest(new ApiResponse(400, new ApiError(ResponseMessageEnum.ValidationError.GetDescription(), ModelStateExtension.AllErrors(ModelState))));
             }
-
-            // Get UserId from token claim
-            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-            filter.UserId = GetUserId(token);
+            
+            filter.UserId = GetUserId();
 
             var result = await sender.Send(new EmployeeSearchQuery(filter));
 
@@ -71,10 +68,8 @@ namespace SearchApp.Api.Controllers
             {
                 return BadRequest(new ApiResponse(400, new ApiError(ResponseMessageEnum.ValidationError.GetDescription(), ModelStateExtension.AllErrors(ModelState))));
             }
-
-            // Get UserId from token claim
-            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");            
-            string UserId = GetUserId(token);
+            
+            string UserId = GetUserId();
 
             var result = await sender.Send(new SearchHistoryQuery(UserId));
 
@@ -91,8 +86,11 @@ namespace SearchApp.Api.Controllers
         /// </summary>
         /// <param name="token">From JWT token claim get UserId.</param>
         /// <returns>UserId.</returns>
-        private string GetUserId(string token)
+        private string GetUserId()
         {
+            // Get UserId from token claim
+            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(token);
 
