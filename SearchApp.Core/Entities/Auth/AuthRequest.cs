@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SearchApp.Core.Entities
+namespace SearchApp.Core
 {
     public class AuthRequest
     {

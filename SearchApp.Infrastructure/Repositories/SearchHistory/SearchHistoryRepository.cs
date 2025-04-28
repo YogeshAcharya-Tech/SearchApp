@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SearchApp.Core;
-using SearchApp.Core.Entities;
 using SearchApp.Infrastructure.Data;
 
 namespace SearchApp.Infrastructure.Repositories

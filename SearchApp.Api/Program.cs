@@ -7,7 +7,6 @@ using NLog.Web;
 using SearchApp.Api.DependencyInjection;
 using SearchApp.Api.MIddleware;
 using SearchApp.Core;
-using SearchApp.Core.Entities;
 using SearchApp.Infrastructure.Repositories;
 using System.Text;
 

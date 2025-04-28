@@ -1,9 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SearchApp.Core.DependencyInjection
 {
@@ -11,6 +6,7 @@ namespace SearchApp.Core.DependencyInjection
     {
         public static IServiceCollection AddCoreDI(this IServiceCollection Services)
         {
+            Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
             return Services;
         }
     }

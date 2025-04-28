@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SearchApp.Core.Interface;
+using SearchApp.Core;
 using SearchApp.Infrastructure.Data;
 using SearchApp.Infrastructure.Repositories;
 

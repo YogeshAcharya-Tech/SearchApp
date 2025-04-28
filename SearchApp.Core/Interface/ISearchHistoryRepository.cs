@@ -1,6 +1,4 @@
-﻿using SearchApp.Core.Entities;
-
-namespace SearchApp.Core
+﻿namespace SearchApp.Core
 {
     public interface ISearchHistoryRepository
     {

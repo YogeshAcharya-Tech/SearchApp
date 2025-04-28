@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SearchApp.Application;
-using SearchApp.Application.Queries;
-using SearchApp.Core.Entities;
+using SearchApp.Core;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace SearchApp.Api.Controllers

@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using SearchApp.Core.Entities;
 
-namespace SearchApp.Application.Queries
+namespace SearchApp.Core
 {
     public class SearchHistoryQuery : IRequest<List<SearchHistory>>
     {

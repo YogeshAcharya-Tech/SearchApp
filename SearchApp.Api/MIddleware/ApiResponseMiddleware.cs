@@ -3,7 +3,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using SearchApp.Core;
-using SearchApp.Core.Entities;
 using System.Diagnostics;
 using System.Net;
 

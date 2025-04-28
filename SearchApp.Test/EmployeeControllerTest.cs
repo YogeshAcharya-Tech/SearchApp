@@ -1,13 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using SearchApp.Api.Controllers;
-using SearchApp.Application;
-using SearchApp.Application.Queries;
-using SearchApp.Core.Entities;
+using SearchApp.Core;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

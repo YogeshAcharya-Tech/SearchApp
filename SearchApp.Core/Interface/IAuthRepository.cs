@@ -1,6 +1,6 @@
-﻿using SearchApp.Core.Entities;
+﻿using SearchApp.Core;
 
-namespace SearchApp.Core.Interface
+namespace SearchApp.Core
 {
     public interface IAuthRepository
     {

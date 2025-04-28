@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace SearchApp.Core.Entities
+namespace SearchApp.Core
 {
     public static class StringExtension
     {

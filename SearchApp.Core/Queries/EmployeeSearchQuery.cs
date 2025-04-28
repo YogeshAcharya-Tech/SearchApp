@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using SearchApp.Core.Entities;
-using SearchApp.Core.Interface;
 
-namespace SearchApp.Application
+namespace SearchApp.Core
 {
     public record EmployeeSearchQuery(SearchEmployeeRequest SearchEmployeeRequest) : IRequest<IEnumerable<EmployeeSearchResponse>>;
 

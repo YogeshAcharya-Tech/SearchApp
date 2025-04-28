@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SearchApp.Core.Entities
+namespace SearchApp.Core
 {
     public enum ResponseMessageEnum
     {
