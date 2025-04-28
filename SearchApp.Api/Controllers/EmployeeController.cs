@@ -33,6 +33,31 @@ namespace SearchApp.Api.Controllers
         public async Task<IActionResult> GetAllEmployees()
         {
             var result = await sender.Send(new GetAllEmployeesQuery());
+            
+            if (result == null || !result.Any())
+            {
+                return NotFound(new ApiResponse(404, new ApiError("Failed: Data not found")));
+            }
+
+            return Ok(new ApiResponse(ResponseMessageEnum.Success.GetDescription(), result, 200));
+        }
+        
+        /// <summary> Get specific employee by userid
+        /// </summary>
+        [HttpGet("GetEmployeeById")]
+        public async Task<IActionResult> GetEmployeeById(string UserId)
+        {
+            if (string.IsNullOrEmpty(UserId))
+            {
+                return BadRequest(new ApiResponse(400, new ApiError("Failed: UserId is required", ModelStateExtension.AllErrors(ModelState))));
+            }
+            var result = await sender.Send(new GetEmployeeByIdQuery(UserId));
+
+            if (result == null)
+            {
+                return NotFound(new ApiResponse(404, new ApiError("Failed: Data not found")));
+            }
+
             return Ok(new ApiResponse(ResponseMessageEnum.Success.GetDescription(), result, 200));
         }
 

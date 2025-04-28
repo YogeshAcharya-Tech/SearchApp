@@ -4,11 +4,11 @@ using SearchApp.Core.Interface;
 
 namespace SearchApp.Application
 {
-    public record GetAllEmployeesQuery() : IRequest<IEnumerable<EmployeeEntity>>;
+    public record GetAllEmployeesQuery() : IRequest<IEnumerable<EmployeeDetailResponse>>;
 
-    public class GetAllEmployeesQueryHandler(IEmployeeRepository employeeRepository) : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeEntity>>
+    public class GetAllEmployeesQueryHandler(IEmployeeRepository employeeRepository) : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeDetailResponse>>
     {
-        public async Task<IEnumerable<EmployeeEntity>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<EmployeeDetailResponse>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
             return await employeeRepository.GetEmployees();
         }

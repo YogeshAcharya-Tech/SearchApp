@@ -1,6 +1,6 @@
 ﻿namespace SearchApp.Core.Entities
 {
-    public class EmployeeSearchResponse
+    public class EmployeeDetailResponse
     {
         public string Id { get; set; }
         public string Name { get; set; }
