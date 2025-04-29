@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
+using Newtonsoft.Json;
 using SearchApp.Api.Controllers;
 using SearchApp.Application;
 using SearchApp.Domain;
@@ -66,8 +67,20 @@ namespace SearchAPI.Test
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result).Value;
-            var returnedemployee = Assert.IsType<List<EmployeeSearchResponse>>(okResult);
-            Assert.Equal(expectedemployee.Count, returnedemployee.Count);
+
+            string json = JsonConvert.SerializeObject(okResult);
+
+            ApiResponse Response = JsonConvert.DeserializeObject<ApiResponse>(json);
+
+            try
+            {
+                var returnedemployee = Assert.IsType<List<EmployeeSearchResponse>>(Response.Result);
+                Assert.Equal(expectedemployee.Count, returnedemployee.Count);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         [Fact]

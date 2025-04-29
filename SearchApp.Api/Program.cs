@@ -7,6 +7,7 @@ using SearchApp.Api;
 using SearchApp.Domain;
 using SearchApp.Infrastructure.Repositories;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var logger = LogManager.Setup().LoadConfigurationFromFile("nlog.config").GetCurrentClassLogger();
 
@@ -50,7 +51,11 @@ builder.Services.AddAuthentication(x =>
 });
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(opts =>
+{
+    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    opts.JsonSerializerOptions.IgnoreNullValues = true;
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
