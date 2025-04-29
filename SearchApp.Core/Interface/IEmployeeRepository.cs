@@ -1,13 +1,11 @@
-﻿using SearchApp.Core;
-
-namespace SearchApp.Core
+﻿namespace SearchApp.Domain
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<EmployeeDetailResponse>> GetEmployees();
+        Task<List<EmployeeDetailResponse>> GetEmployees();
         Task<EmployeeDetailResponse> GetEmployeeById(string UserId);
         Task<CommonResponse> AddEmployee(EmployeeEntity entity);
-        Task<IEnumerable<EmployeeSearchResponse>> GetFilteredEmployeeData();
+        Task<List<EmployeeSearchResponse>> GetFilteredEmployeeData();
         void SaveSearchHistory(SearchEmployeeRequest SearchEmployeeRequest, int ResultSetCount);
     }
 }

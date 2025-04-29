@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public class ApiResponse
     {

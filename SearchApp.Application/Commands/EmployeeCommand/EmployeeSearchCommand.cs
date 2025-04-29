@@ -1,12 +1,13 @@
 ﻿using MediatR;
+using SearchApp.Domain;
 
-namespace SearchApp.Core
+namespace SearchApp.Application
 {
-    public record EmployeeSearchQuery(SearchEmployeeRequest SearchEmployeeRequest) : IRequest<IEnumerable<EmployeeSearchResponse>>;
+    public record EmployeeSearchCommand(SearchEmployeeRequest SearchEmployeeRequest) : IRequest<List<EmployeeSearchResponse>>;
 
-    public class EmployeeSearchHandler(IEmployeeRepository _employeeRepository) : IRequestHandler<EmployeeSearchQuery, IEnumerable<EmployeeSearchResponse>>
+    public class EmployeeSearchCommandHandler(IEmployeeRepository _employeeRepository) : IRequestHandler<EmployeeSearchCommand, List<EmployeeSearchResponse>>
     {
-        public async Task<IEnumerable<EmployeeSearchResponse>> Handle(EmployeeSearchQuery request, CancellationToken cancellationToken)
+        public async Task<List<EmployeeSearchResponse>> Handle(EmployeeSearchCommand request, CancellationToken cancellationToken)
         {
             var SearchEmployeeRequest = request.SearchEmployeeRequest;
             List<EmployeeSearchResponse> EmpList = new List<EmployeeSearchResponse>();
@@ -56,9 +57,10 @@ namespace SearchApp.Core
                 }                
             }
 
-            if(EmpList.Count > 0 && SearchEmployeeRequest.RecordsPerRequest > 0)
+            if(EmpList.Count > 0 && SearchEmployeeRequest.PageSize > 0 && SearchEmployeeRequest.PageNumber > 0)
             {
-                EmpList = EmpList.Take(SearchEmployeeRequest.RecordsPerRequest).ToList();                
+                EmpList = EmpList.Skip((SearchEmployeeRequest.PageNumber - 1) * SearchEmployeeRequest.PageSize).Take(SearchEmployeeRequest.PageSize).ToList();
+                //EmpList = EmpList.Take(SearchEmployeeRequest.RecordsPerRequest).ToList();
             }
 
             var FinalList = SortEmpList(EmpList, SearchEmployeeRequest);

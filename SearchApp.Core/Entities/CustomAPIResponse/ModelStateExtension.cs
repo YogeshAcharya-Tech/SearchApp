@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public static class ModelStateExtension
     {

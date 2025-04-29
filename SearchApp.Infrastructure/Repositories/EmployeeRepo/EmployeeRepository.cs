@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SearchApp.Core;
+using SearchApp.Domain;
 using SearchApp.Infrastructure.Data;
 
 namespace SearchApp.Infrastructure.Repositories
 {
     public class EmployeeRepository(AppDbContext dbContext) : IEmployeeRepository
     {
-        public async Task<IEnumerable<EmployeeDetailResponse>> GetEmployees()
+        public async Task<List<EmployeeDetailResponse>> GetEmployees()
         {
             var data = await dbContext.Employees.Where(x => x.IsActive == true).ToListAsync();
 
@@ -54,9 +54,9 @@ namespace SearchApp.Infrastructure.Repositories
             dbContext.Employees.Add(entity);
             dbContext.SaveChanges();
 
-            return new CommonResponse { ResponseStatus = true, ResponseMessage = "Employee Added Successfully!" };
+            return new CommonResponse {UserId = entity.Id.ToString(), ResponseStatus = true, ResponseMessage = "Employee Added Successfully!" };
         }
-        public async Task<IEnumerable<EmployeeSearchResponse>> GetFilteredEmployeeData()
+        public async Task<List<EmployeeSearchResponse>> GetFilteredEmployeeData()
         {
             var data = dbContext.Employees.Where(x => x.IsActive == true).ToList();
             List<EmployeeSearchResponse> EmpList = data.Select(x=> new EmployeeSearchResponse 
@@ -81,7 +81,8 @@ namespace SearchApp.Infrastructure.Repositories
                 Name = SearchEmployeeRequest.Name,
                 FromDate = SearchEmployeeRequest.FromDate,
                 ToDate = SearchEmployeeRequest.ToDate,
-                RecordsPerRequest = SearchEmployeeRequest.RecordsPerRequest,
+                PageNumber = SearchEmployeeRequest.PageNumber,
+                PageSize = SearchEmployeeRequest.PageSize,
                 SortBy = SearchEmployeeRequest.SortBy,
                 SortOrder = SearchEmployeeRequest.SortOrder,
                 ResultCount = ResultSetCount,

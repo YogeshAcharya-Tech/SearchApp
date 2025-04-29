@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SearchApp.Core;
+using SearchApp.Application;
+using SearchApp.Domain;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace SearchApp.Api.Controllers
@@ -27,7 +29,7 @@ namespace SearchApp.Api.Controllers
 
         /// <summary> Get all active employees available in emp management database
         /// </summary>
-        [HttpPost("GetAllEmployees")]
+        [HttpGet("GetAllEmployees")]
         public async Task<IActionResult> GetAllEmployees()
         {
             var result = await sender.Send(new GetAllEmployeesQuery());
@@ -71,7 +73,7 @@ namespace SearchApp.Api.Controllers
             
             filter.UserId = GetUserId();
 
-            var result = await sender.Send(new EmployeeSearchQuery(filter));
+            var result = await sender.Send(new EmployeeSearchCommand(filter));
 
             if(result == null || !result.Any())
             {
@@ -84,7 +86,7 @@ namespace SearchApp.Api.Controllers
         /// <summary> Get search history saved in DB so that we can easily revisit previous searches  
         /// </summary>
 
-        [HttpPost("GetEmployeeSearchHistory")]
+        [HttpGet("GetEmployeeSearchHistory")]
         public async Task<IActionResult> GetEmployeeSearchHistory()
         {
             if (!ModelState.IsValid)

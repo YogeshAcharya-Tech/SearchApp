@@ -1,9 +1,9 @@
-﻿namespace SearchApp.Core
+﻿namespace SearchApp.Domain
 {
     public enum EmployeeSortEnum
     {
-        Name,
-        Salary,
-        Date
+        Name = 1,
+        Salary = 2,
+        Date = 3
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public class ValidationError
     {

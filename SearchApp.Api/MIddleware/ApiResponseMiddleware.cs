@@ -2,21 +2,21 @@
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using SearchApp.Core;
+using SearchApp.Domain;
 using System.Diagnostics;
 using System.Net;
 
-namespace SearchApp.Api.MIddleware
+namespace SearchApp.Api
 {
     public class ApiResponseMiddleware
     {
         private readonly RequestDelegate _next; //Used to execute and pass control in order of sequence
-        private readonly ICustomLogger _customLogger; // Using NLog
+        private readonly ILogger _logger; // Using NLog
 
-        public ApiResponseMiddleware(RequestDelegate next, ICustomLogger customLogger)
+        public ApiResponseMiddleware(RequestDelegate next, ILogger logger)
         {
             _next = next;
-            _customLogger = customLogger;
+            _logger = logger;
         }
         public async Task Invoke(HttpContext httpContext)
         {
@@ -30,11 +30,11 @@ namespace SearchApp.Api.MIddleware
             var bodyAsText = await RequestHelper.FormatRequest(httpContext.Request);
 
             // Insert request log - HttpContext htcontext, string bodyText, string uid         
-            _customLogger.RequestLog(httpContext, bodyAsText, "");
+            _logger.RequestLog(httpContext, bodyAsText, "");
 
+            // Validate input
             if (string.IsNullOrWhiteSpace(bodyAsText))
             {
-                // Validate input
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 await HandleNotSuccessRequestAsync(httpContext, httpContext.Response.StatusCode, "", stopWatch.ElapsedMilliseconds);
                 return;
@@ -82,7 +82,7 @@ namespace SearchApp.Api.MIddleware
                 {
                     stopWatch.Stop();
                     if (context.Response.StatusCode == (int)HttpStatusCode.OK)
-                        _customLogger.ResponseLog(context, bodyAsText, uid, stopWatch.ElapsedMilliseconds);
+                        _logger.ResponseLog(context, bodyAsText, uid, stopWatch.ElapsedMilliseconds);
                 }
             }
         }
@@ -130,7 +130,7 @@ namespace SearchApp.Api.MIddleware
             }
 
             // Insert ErrorLog
-            _customLogger.ErrorLog(context, strMessage, uid, apiTime);
+            _logger.ErrorLog(context, strMessage, uid, apiTime);
 
             var jsonString = ConvertToJSONString(GetErrorResponse(code, apiError));
             context.Response.ContentType = "application/json";
@@ -165,7 +165,7 @@ namespace SearchApp.Api.MIddleware
             var jsonString = ConvertToJSONString(GetErrorResponse(code, apiError));
 
             // Insert ErrorLog
-            _customLogger.ErrorLog(context, jsonString, uid, apiTime);
+            _logger.ErrorLog(context, jsonString, uid, apiTime);
 
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(jsonString);
@@ -211,7 +211,7 @@ namespace SearchApp.Api.MIddleware
             }
 
             // Insert ErrorLog
-            _customLogger.ErrorLog(context, jsonString, uid, apiTime);
+            _logger.ErrorLog(context, jsonString, uid, apiTime);
 
             context.Response.ContentType = "application/json";
             return context.Response.WriteAsync(jsonString);

@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NLog;
 using NLog.Web;
-using SearchApp.Api.DependencyInjection;
-using SearchApp.Api.MIddleware;
-using SearchApp.Core;
+using SearchApp.Api;
+using SearchApp.Domain;
 using SearchApp.Infrastructure.Repositories;
 using System.Text;
 
@@ -59,6 +57,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SchemaFilter<EnumSchemaFilter>();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SearchApp.API", Version = "v1" });
     c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
@@ -87,8 +86,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAppDI();
 
-builder.Services.AddSingleton<ICustomLogger, CustomLogger>();
-builder.Services.AddSingleton<LogHelper>();
+//builder.Services.AddSingleton<LogHelper>();
 builder.Services.AddScoped<ISearchHistoryRepository, SearchHistoryRepository>();
 
 var app = builder.Build();

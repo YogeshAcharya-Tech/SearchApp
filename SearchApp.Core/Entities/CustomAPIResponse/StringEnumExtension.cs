@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public static class StringEnumExtension
     {

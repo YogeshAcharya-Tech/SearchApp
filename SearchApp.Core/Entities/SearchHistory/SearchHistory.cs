@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public class SearchHistory
     {
@@ -11,7 +11,8 @@ namespace SearchApp.Core
         public decimal? Salary { get; set; } = null!;
         public string FromDate { get; set; } = null!;
         public string ToDate { get; set; } = null!;
-        public int RecordsPerRequest { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
         public string SortBy { get; set; } = null!;
         public string SortOrder { get; set; } = null!;
         public string UserId { get; set; } = null!;

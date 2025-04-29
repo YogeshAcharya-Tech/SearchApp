@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SearchApp.Core
+namespace SearchApp.Domain
 {
     public class EmployeeEntity
     {

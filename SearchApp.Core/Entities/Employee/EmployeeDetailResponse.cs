@@ -1,4 +1,4 @@
-﻿namespace SearchApp.Core
+﻿namespace SearchApp.Domain
 {
     public class EmployeeDetailResponse
     {

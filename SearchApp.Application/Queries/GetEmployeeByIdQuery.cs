@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using SearchApp.Domain;
 
-namespace SearchApp.Core
+namespace SearchApp.Application
 {
     public record GetEmployeeByIdQuery(string UserId) : IRequest<EmployeeDetailResponse>;
 

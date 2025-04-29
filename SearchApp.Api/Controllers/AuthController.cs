@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SearchApp.Application;
-using SearchApp.Core;
+using SearchApp.Domain;
 
 namespace SearchApp.Api.Controllers
 {

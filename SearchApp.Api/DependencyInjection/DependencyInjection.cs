@@ -1,14 +1,14 @@
 ﻿using SearchApp.Application.DependencyInjection;
-using SearchApp.Core.DependencyInjection;
 using SearchApp.Infrastructure.DependencyInjection;
 
-namespace SearchApp.Api.DependencyInjection
+namespace SearchApp.Api
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddAppDI(this IServiceCollection Services)
         {
-            Services.AddApplicationDI().AddCoreDI().AddInfrastructureDI();
+            Services.AddSingleton<ILogger, Logger>();
+            Services.AddApplicationDI().AddInfrastructureDI();
             return Services;
         }
     }

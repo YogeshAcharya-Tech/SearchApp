@@ -1,6 +1,4 @@
-﻿using SearchApp.Core;
-
-namespace SearchApp.Core
+﻿namespace SearchApp.Domain
 {
     public interface IAuthRepository
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace SearchApp.Core.DependencyInjection
+namespace SearchApp.Domain
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddCoreDI(this IServiceCollection Services)
+        public static IServiceCollection AddDomainDI(this IServiceCollection Services)
         {
             Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
             return Services;

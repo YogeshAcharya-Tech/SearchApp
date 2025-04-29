@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using SearchApp.Domain;
 
-namespace SearchApp.Core
+namespace SearchApp.Application
 {
     public record AddEmployeeCommand(EmployeeEntity Employee) : IRequest<CommonResponse>;
 

@@ -1,23 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using NLog;
+﻿using NLog;
 
-namespace SearchApp.Core
+namespace SearchApp.Api
 {
-    public interface ICustomLogger
+    public interface ILogger
     {
         void RequestLog(HttpContext htcontext, string bodyText, string uid);
         void ResponseLog(HttpContext htcontext, string bodyText, string uid, long apiTime);
         void ErrorLog(HttpContext htcontext, string bodyText, string uid, long apiTime);
-        void WebEngLogInsert(HttpContext htcontext, string bodyText, string requestType, string uid, long apiTime);
     }
 
-    public class CustomLogger : ICustomLogger
+    public class Logger : ILogger
     {
         private readonly NLog.ILogger logger;
 
         // Constructor to initialize the logger
-        // Constructor to initialize the logger
-        public CustomLogger()
+        public Logger()
         {
             logger = LogManager.GetCurrentClassLogger();
         }
@@ -35,11 +32,6 @@ namespace SearchApp.Core
         public void ErrorLog(HttpContext htcontext, string bodyText, string uid, long apiTime)
         {
             AddlogInfo(NLog.LogLevel.Error, logger, htcontext, uid, "Response", bodyText, apiTime);
-        }
-        public void WebEngLogInsert(HttpContext htcontext, string bodyText, string requestType, string uid, long apiTime)
-        {
-            var webenglogger = LogManager.GetLogger("WebEngDbLog");
-            AddlogInfo(NLog.LogLevel.Debug, webenglogger, htcontext, uid, requestType, bodyText, apiTime);
         }
 
         private void AddlogInfo(NLog.LogLevel logLevel, NLog.ILogger loggerObj, HttpContext htcontext, string uid, string requesttype, string bodyText, long apiTime)
