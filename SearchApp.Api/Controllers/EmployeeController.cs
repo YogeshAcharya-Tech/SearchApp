@@ -61,6 +61,27 @@ namespace SearchApp.Api.Controllers
             return Ok(new ApiResponse(ResponseMessageEnum.Success.GetDescription(), result, 200));
         }
 
+        /// <summary> Get search history using Get API (Query String) Approach Not saving search history for this approach I have saved already in Post search method  
+        /// </summary>
+        [HttpGet("SearchEmployee")]
+        public async Task<IActionResult> SearchEmployee(EmployeeFilterEnum FilterKey, string FilterValue, EmployeeSortEnum SortBy, EmployeeSortOrderEnum SortOrder, int PageNumber = 1, int PageSize = 10)
+        {
+            if (string.IsNullOrEmpty(FilterKey.ToString()) || string.IsNullOrEmpty(FilterValue))
+            {
+                return NotFound(new ApiResponse(400, new ApiError("Validation Error: FilterKey and FilterValue is required!")));
+            }
+
+            string UserId = GetUserId();
+            var result = await sender.Send(new EmpSearchByGetQuery(FilterKey.ToString(), FilterValue, SortBy.ToString(), SortOrder.ToString(), PageNumber, PageSize, UserId));
+
+            if (result == null || !result.Any())
+            {
+                return NotFound(new ApiResponse(404, new ApiError("Failed: Data not found")));
+            }
+
+            return Ok(new ApiResponse(ResponseMessageEnum.Success.GetDescription(), result, 200));
+        }
+
         /// <summary> Search Employee based on various filter like: Name, CreatedDate, Department, Salary
         /// </summary>
         [HttpPost("SearchEmployee")]
@@ -128,27 +149,6 @@ namespace SearchApp.Api.Controllers
             }
 
             return userId;
-        }
-
-        /// <summary> Get search history using Get API (Query String) Approach Not saving search history for this approach I have saved already in Post search method  
-        /// </summary>
-        [HttpGet("SearchEmployee_Get")]
-        public async Task<IActionResult> SearchEmployee_Get(EmployeeFilterEnum FilterKey, string FilterValue, EmployeeSortEnum SortBy, EmployeeSortOrderEnum SortOrder, int PageNumber = 1, int PageSize = 10)
-        {
-            if(string.IsNullOrEmpty(FilterKey.ToString()) || string.IsNullOrEmpty(FilterValue))
-            {
-                return NotFound(new ApiResponse(400, new ApiError("Validation Error: FilterKey and FilterValue is required!")));
-            }
-
-            string UserId = GetUserId();
-            var result = await sender.Send(new EmpSearchByGetQuery(FilterKey.ToString(), FilterValue, SortBy.ToString(), SortOrder.ToString(), PageNumber, PageSize, UserId));
-            
-            if (result == null || !result.Any())
-            {
-                return NotFound(new ApiResponse(404, new ApiError("Failed: Data not found")));
-            }
-
-            return Ok(new ApiResponse(ResponseMessageEnum.Success.GetDescription(), result, 200));
         }
     }
 }
